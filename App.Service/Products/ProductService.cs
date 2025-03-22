@@ -1,5 +1,6 @@
 ﻿using App.Repository;
 using App.Repository.Products;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.Service.Products;
 
@@ -17,7 +18,14 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         };
     }
 
-    public async Task<ServiceResult<ProductDto>> GetProductByIdAsync(int id)
+    public async Task<ServiceResult<List<ProductDto>>> GetAllList()
+    {
+        var products = await productRepository.GetAll().ToListAsync();
+        var productAsDto = products.Select(p => new ProductDto(p.Id, p.Name, p.Price, p.Stock)).ToList();
+        return ServiceResult<List<ProductDto>>.Success(productAsDto);
+    }
+
+    public async Task<ServiceResult<ProductDto?>> GetProductByIdAsync(int id)
     {
         var product = await productRepository.GetByIdAsync(id);
 
@@ -26,7 +34,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
 
         var productAsDto = new ProductDto(product!.Id, product.Name, product.Price, product.Stock);
 
-        return ServiceResult<ProductDto>.Success(productAsDto!);
+        return ServiceResult<ProductDto>.Success(productAsDto)!;
     }
 
     public async Task<ServiceResult<CreateProductResponse>> CreateProductAsync(CreateProductRequest request)
