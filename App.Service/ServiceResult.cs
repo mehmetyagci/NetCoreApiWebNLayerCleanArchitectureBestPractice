@@ -1,4 +1,6 @@
-﻿namespace App.Service;
+﻿using System.Net;
+
+namespace App.Service;
 
 public class ServiceResult<T>
 {
@@ -22,4 +24,36 @@ public class ServiceResult<T>
     //}
 
     public bool IsFail => !IsSuccess;
+
+    public HttpStatusCode Status { get; set; }
+
+    /// static factory methods 
+    /// new lemeyi kontrol altına almış olduk
+    public static ServiceResult<T> Success(T data, HttpStatusCode status = HttpStatusCode.OK)
+    {
+        return new ServiceResult<T>()
+        {
+            Data = data,
+            Status = status,
+        };
+    }
+
+    public static ServiceResult<T> Fail(List<string> errorMessages, HttpStatusCode status = HttpStatusCode.BadRequest)
+    {
+        return new ServiceResult<T>()
+        {
+            ErrorMessage = errorMessages,
+            Status = status
+        };
+    }
+
+    public static ServiceResult<T> Fail(string errorMessage, HttpStatusCode status = HttpStatusCode.BadRequest)
+    {
+        return new ServiceResult<T>()
+        {
+            // ErrorMessage = new List<string> { errorMessage }
+            ErrorMessage = [errorMessage],
+            Status = status
+        };
+    }
 }
