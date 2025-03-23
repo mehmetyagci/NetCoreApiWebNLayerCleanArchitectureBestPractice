@@ -25,7 +25,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         return ServiceResult<List<ProductDto>>.Success(productAsDto);
     }
 
-    public async Task<ServiceResult<ProductDto?>> GetProductByIdAsync(int id)
+    public async Task<ServiceResult<ProductDto?>> GetByIdAsync(int id)
     {
         var product = await productRepository.GetByIdAsync(id);
 
@@ -37,7 +37,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         return ServiceResult<ProductDto>.Success(productAsDto)!;
     }
 
-    public async Task<ServiceResult<CreateProductResponse>> CreateProductAsync(CreateProductRequest request)
+    public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request)
     {
         var product = new Product
         {
@@ -51,7 +51,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         return ServiceResult<CreateProductResponse>.Success(new CreateProductResponse(product.Id));
     }
 
-    public async Task<ServiceResult> UpdateProductAsync(int id, UpdateProductRequest request)
+    public async Task<ServiceResult> UpdateAsync(int id, UpdateProductRequest request)
     {
         var product = await productRepository.GetByIdAsync(request.Id);
         if (product is null)
@@ -67,7 +67,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         return ServiceResult.Success();
     }
 
-    public async Task<ServiceResult> DeleteProductAsync(int id)
+    public async Task<ServiceResult> DeleteAsync(int id)
     {
         var product = await productRepository.GetByIdAsync(id);
         if (product is null)
