@@ -20,6 +20,11 @@ public class ServiceResult<T>
     [JsonIgnore] public bool IsFail => !IsSuccess;
 
     [JsonIgnore] public HttpStatusCode Status { get; set; }
+    
+    /// <summary>
+    /// Create edilen kaydın URL'sini response da dönmek için eklendi.
+    /// </summary>
+    [JsonIgnore] public string? UrlAsCreated { get; set; }
 
     /// static factory methods 
     /// new lemeyi kontrol altına almış olduk
@@ -32,6 +37,16 @@ public class ServiceResult<T>
         };
     }
 
+    public static ServiceResult<T> SuccessAsCreated(T data, string urlAsCreated)
+    {
+        return new ServiceResult<T>()
+        {
+            Data = data,
+            Status = HttpStatusCode.Created,
+            UrlAsCreated = urlAsCreated,
+        };
+    }
+    
     public static ServiceResult<T> Fail(List<string> errorMessages, HttpStatusCode status = HttpStatusCode.BadRequest)
     {
         return new ServiceResult<T>()
