@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.Json.Serialization;
 
 namespace App.Service;
 
@@ -14,18 +15,11 @@ public class ServiceResult<T>
     /// </summary>
     public List<string>? ErrorMessage { get; set; }
 
-    public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
-    //public bool IsSuccess
-    //{
-    //    get
-    //    {
-    //        return ErrorMessage == null || ErrorMessage.Count == 0;
-    //    }
-    //}
+    [JsonIgnore] public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
 
-    public bool IsFail => !IsSuccess;
+    [JsonIgnore] public bool IsFail => !IsSuccess;
 
-    public HttpStatusCode Status { get; set; }
+    [JsonIgnore] public HttpStatusCode Status { get; set; }
 
     /// static factory methods 
     /// new lemeyi kontrol altına almış olduk
@@ -65,11 +59,11 @@ public class ServiceResult
     /// </summary>
     public List<string>? ErrorMessage { get; set; }
 
-    public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
+    [JsonIgnore] public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
 
-    public bool IsFail => !IsSuccess;
+    [JsonIgnore] public bool IsFail => !IsSuccess;
 
-    public HttpStatusCode Status { get; set; }
+    [JsonIgnore] public HttpStatusCode Status { get; set; }
 
     /// static factory methods 
     /// new lemeyi kontrol altına almış olduk

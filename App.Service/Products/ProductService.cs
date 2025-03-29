@@ -1,6 +1,7 @@
 ﻿using App.Repository;
 using App.Repository.Products;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace App.Service.Products;
 
@@ -18,7 +19,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         };
     }
 
-    public async Task<ServiceResult<List<ProductDto>>> GetAllList()
+    public async Task<ServiceResult<List<ProductDto>>> GetAllListAsync()
     {
         var products = await productRepository.GetAll().ToListAsync();
         var productAsDto = products.Select(p => new ProductDto(p.Id, p.Name, p.Price, p.Stock)).ToList();
@@ -53,7 +54,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
 
     public async Task<ServiceResult> UpdateAsync(int id, UpdateProductRequest request)
     {
-        var product = await productRepository.GetByIdAsync(request.Id);
+        var product = await productRepository.GetByIdAsync(id);
         if (product is null)
             return ServiceResult.Fail("Product not found!", System.Net.HttpStatusCode.NotFound);
 
@@ -64,7 +65,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         productRepository.Update(product);
         await unitOfWork.SaveChangesAsync();
 
-        return ServiceResult.Success();
+        return ServiceResult.Success(HttpStatusCode.NoContent);
     }
 
     public async Task<ServiceResult> DeleteAsync(int id)
@@ -74,6 +75,6 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
             return ServiceResult.Fail("Product not found!", System.Net.HttpStatusCode.NotFound);
         productRepository.Delete(product);
         await unitOfWork.SaveChangesAsync();
-        return ServiceResult.Success();
+        return ServiceResult.Success(HttpStatusCode.NoContent);
     }
 }
