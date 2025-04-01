@@ -47,6 +47,13 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
 
     public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request)
     {
+        // var anyProduct = await productRepository.Where(x => x.Name == request.Name).AnyAsync();
+        // if (anyProduct)
+        // {
+        //     return ServiceResult<CreateProductResponse>.Fail("Product already exists!", 
+        //         System.Net.HttpStatusCode.BadRequest);
+        // }
+        
         var product = new Product
         {
             Name = request.Name,
