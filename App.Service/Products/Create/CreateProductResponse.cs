@@ -1,5 +1,5 @@
 ﻿
-namespace App.Service.Products;
+namespace App.Service.Products.Create;
 
 public record CreateProductResponse(int Id);
 

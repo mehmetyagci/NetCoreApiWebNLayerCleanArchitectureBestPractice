@@ -2,35 +2,41 @@
 using App.Repository.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using App.Service.Products.Create;
+using App.Service.Products.Update;
+using AutoMapper;
 
 namespace App.Service.Products;
 
-public class ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork) : IProductService
+public class ProductService(
+    IProductRepository productRepository, 
+    IUnitOfWork unitOfWork,
+    IMapper mapper) : IProductService
 {
     public async Task<ServiceResult<List<ProductDto>>> GetTopPriceProductsAsync(int count)
     {
         var products = await productRepository.GetTopPriceProductsAsync(count);
-
-        var productDtos = products.Select(p => new ProductDto(p.Id, p.Name, p.Price, p.Stock)).ToList();
+        
+        var productsAsDto = mapper.Map<List<ProductDto>>(products);
 
         return new ServiceResult<List<ProductDto>>
         {
-            Data = productDtos
+            Data = productsAsDto
         };
     }
 
     public async Task<ServiceResult<List<ProductDto>>> GetAllListAsync()
     {
         var products = await productRepository.GetAll().ToListAsync();
-        var productAsDto = products.Select(p => new ProductDto(p.Id, p.Name, p.Price, p.Stock)).ToList();
-        return ServiceResult<List<ProductDto>>.Success(productAsDto);
+        var productsAsDto = mapper.Map<List<ProductDto>>(products);
+        return ServiceResult<List<ProductDto>>.Success(productsAsDto);
     }
 
     public async Task<ServiceResult<List<ProductDto>>> GetPagedAllListAsync(int pageNumber, int pageSize)
     {
         var products = await productRepository.GetAll().Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToListAsync();
-        var productAsDto = products.Select(p => new ProductDto(p.Id, p.Name, p.Price, p.Stock)).ToList();
-        return ServiceResult<List<ProductDto>>.Success(productAsDto);
+        var productsAsDto = mapper.Map<List<ProductDto>>(products);
+        return ServiceResult<List<ProductDto>>.Success(productsAsDto);
     }
     
     public async Task<ServiceResult<ProductDto?>> GetByIdAsync(int id)
@@ -40,7 +46,7 @@ public class ProductService(IProductRepository productRepository, IUnitOfWork un
         if (product is null)
             ServiceResult<Product>.Fail("Product not found!", System.Net.HttpStatusCode.NotFound);
 
-        var productAsDto = new ProductDto(product!.Id, product.Name, product.Price, product.Stock);
+        var productAsDto = mapper.Map<ProductDto>(product);
 
         return ServiceResult<ProductDto>.Success(productAsDto)!;
     }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using App.Service.Products.Create;
+using App.Service.Products.Update;
 
 namespace App.Service.Products;
 

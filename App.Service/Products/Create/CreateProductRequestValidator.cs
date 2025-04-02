@@ -2,7 +2,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.Service.Products;
+namespace App.Service.Products.Create;
 
 public class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
 {
