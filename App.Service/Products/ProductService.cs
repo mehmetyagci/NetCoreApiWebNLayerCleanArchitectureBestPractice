@@ -2,6 +2,7 @@
 using App.Repository.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using App.Service.ExceptionHandlers;
 using App.Service.Products.Create;
 using App.Service.Products.Update;
 using AutoMapper;
@@ -53,6 +54,8 @@ public class ProductService(
 
     public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request)
     {
+        // var a = int.Parse("1") / int.Parse("0");
+        // throw new CriticalException("hata 1 2 3!");
         // var anyProduct = await productRepository.Where(x => x.Name == request.Name).AnyAsync();
         // if (anyProduct)
         // {
