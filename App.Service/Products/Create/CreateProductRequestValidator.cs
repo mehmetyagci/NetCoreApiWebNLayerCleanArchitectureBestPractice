@@ -16,8 +16,8 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
             .NotNull().WithMessage("Ürün ismi gereklidir.")
             .NotEmpty().WithMessage("ürün ismi gereklidir.")
             .Length(3, 10).WithMessage("Ürün ismi 3 ile 10 karakter arasında olmalıdır.")
-            .Must(MustUniqueProductName).WithMessage("ürün ismi veritabanında bulunmaktadır.");
-            //.MustAsync(MustUniqueProductNameAsync).WithMessage("ürün ismi veritabanında bulunmaktadır.");
+            //.Must(MustUniqueProductName).WithMessage("ürün ismi veritabanında bulunmaktadır.");
+            .MustAsync(MustUniqueProductNameAsync).WithMessage("ürün ismi veritabanında bulunmaktadır.");
 
         // price validation
         RuleFor(x => x.Price)

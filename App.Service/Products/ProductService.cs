@@ -5,6 +5,7 @@ using System.Net;
 using App.Service.ExceptionHandlers;
 using App.Service.Products.Create;
 using App.Service.Products.Update;
+using App.Service.Products.UpdateStock;
 using AutoMapper;
 
 namespace App.Service.Products;

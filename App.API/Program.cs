@@ -7,18 +7,29 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Add services to the container. 
 builder.Services.AddControllers(options =>
 {
+    // FluentValidation filter'ını ekliyorsun (custom async validation için)
     options.Filters.Add<FluentValidationFilter>();
+    // Non-nullable reference type'ların otomatik olarak required yapılmasını engeller (C# 8+ özellik)
     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
 });
-builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// ASP.NET Core'un default model validation'ını iptal ediyorsun
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+}); // <- Otomatik validation iptal
+
+// SWAGGER Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddRepositories(builder.Configuration).AddServices(builder.Configuration);
+
+// CUSTOM EXTENSIONS
+builder.Services
+    .AddRepositories(builder.Configuration)
+    .AddServices(builder.Configuration);
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //{
 //    // Eski kullanım şekli options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
