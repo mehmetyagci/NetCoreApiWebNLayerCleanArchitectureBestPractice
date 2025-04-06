@@ -14,7 +14,7 @@ public static class ServiceExtensions
     {
         services.AddScoped<IProductService, ProductService>();
 
-        // services.AddFluentValidationAutoValidation();
+        // services.AddFluentValidationAutoValidation(); // FluentValidation ile otomatik model doğrulaması kapatılmıştır. Bu özelliği etkinleştirmek için bu satırın yorumunu kaldırın.
         
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         

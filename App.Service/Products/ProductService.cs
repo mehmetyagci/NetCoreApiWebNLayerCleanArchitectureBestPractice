@@ -64,12 +64,7 @@ public class ProductService(
         //         System.Net.HttpStatusCode.BadRequest);
         // }
         
-        var product = new Product
-        {
-            Name = request.Name,
-            Price = request.Price,
-            Stock = request.Stock
-        };
+        var product = mapper.Map<Product>(request);
 
         await productRepository.AddAsync(product);
         await unitOfWork.SaveChangesAsync();
@@ -83,9 +78,9 @@ public class ProductService(
         if (product is null)
             return ServiceResult.Fail("Product not found!", System.Net.HttpStatusCode.NotFound);
 
-        product.Name = request.Name;
-        product.Price = request.Price;
-        product.Stock = request.Stock;
+       
+        
+        product = mapper.Map(request, product);
 
         productRepository.Update(product);
         await unitOfWork.SaveChangesAsync();
