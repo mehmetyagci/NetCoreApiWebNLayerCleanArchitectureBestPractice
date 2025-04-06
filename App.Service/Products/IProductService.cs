@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using App.Service.Products.Create;
+using App.Service.Products.Dto;
 using App.Service.Products.Update;
 using App.Service.Products.UpdateStock;
 

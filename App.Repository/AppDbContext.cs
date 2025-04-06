@@ -1,6 +1,7 @@
 ﻿using App.Repository.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using App.Repository.Categories;
 
 namespace App.Repository;
 
@@ -8,6 +9,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     public DbSet<Product> Products { get; set; } = default!;
 
+    public DbSet<Category> Categories { get; set; } = default!;
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(

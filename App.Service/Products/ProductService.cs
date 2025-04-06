@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net;
 using App.Service.ExceptionHandlers;
 using App.Service.Products.Create;
+using App.Service.Products.Dto;
 using App.Service.Products.Update;
 using App.Service.Products.UpdateStock;
 using AutoMapper;
@@ -44,12 +45,10 @@ public class ProductService(
     public async Task<ServiceResult<ProductDto?>> GetByIdAsync(int id)
     {
         var product = await productRepository.GetByIdAsync(id);
-
         if (product is null)
           return  ServiceResult<ProductDto?>.Fail("Product not found!", System.Net.HttpStatusCode.NotFound);
 
         var productAsDto = mapper.Map<ProductDto>(product);
-
         return ServiceResult<ProductDto>.Success(productAsDto)!;
     }
 

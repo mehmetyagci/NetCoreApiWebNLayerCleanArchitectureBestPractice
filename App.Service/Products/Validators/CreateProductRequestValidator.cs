@@ -12,9 +12,7 @@ public class CreateProductRequestValidator : BaseProductValidator<CreateProductR
         : base(productRepository)
     {
         RuleFor(x => x.Name)
-            .ProductNameRules()
-            .MustAsync(MustHaveUniqueName)
-            .WithMessage("Ürün ismi veritabanında bulunmaktadır.");
+            .MustAsync(MustHaveUniqueName).WithMessage("Ürün ismi veritabanında bulunmaktadır.");
     }
 
     private async Task<bool> MustHaveUniqueName(string name, CancellationToken cancellationToken)

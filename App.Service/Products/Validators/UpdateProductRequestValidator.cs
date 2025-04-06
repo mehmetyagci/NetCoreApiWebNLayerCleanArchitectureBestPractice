@@ -12,9 +12,7 @@ public class UpdateProductRequestValidator : BaseProductValidator<UpdateProductR
         : base(productRepository)
     {
         RuleFor(x => x.Name)
-            .ProductNameRules()
-            .MustAsync(HasUniqueNameForOtherRecords)
-            .WithMessage("Ürün ismi veritabanında bulunmaktadır.");
+            .MustAsync(HasUniqueNameForOtherRecords).WithMessage("Ürün ismi veritabanında bulunmaktadır.");
     }
 
     private async Task<bool> HasUniqueNameForOtherRecords(UpdateProductRequest request, string name, ValidationContext<UpdateProductRequest> context, CancellationToken cancellationToken)

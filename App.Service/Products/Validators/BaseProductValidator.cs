@@ -15,8 +15,9 @@ public abstract class BaseProductValidator<T> : AbstractValidator<T> where T : I
         ApplyCommonRules();
     }
 
-    protected void ApplyCommonRules()
+    private void ApplyCommonRules()
     {
+        RuleFor(x => x.Name).ProductNameRules();
         RuleFor(x => x.Price).ProductPriceRules();
         RuleFor(x => x.Stock).ProductStockRules();
     }

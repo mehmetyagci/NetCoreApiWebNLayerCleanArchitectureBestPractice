@@ -1,4 +1,5 @@
-﻿using App.Service.Products;
+﻿using App.Service;
+using App.Service.Products;
 using Microsoft.AspNetCore.Mvc;
 using App.Service.Products.Create;
 using App.Service.Products.Update;
@@ -22,6 +23,7 @@ public class ProductsController(IProductService productService) : CustomBaseCont
     public async Task<IActionResult> Create(CreateProductRequest request) => CreateActionResult(await productService.CreateAsync(request));
 
     [HttpPut("{id:int}")]
+    [UseIdInValidation]
     public async Task<IActionResult> Update(int id, UpdateProductRequest request) => CreateActionResult(await productService.UpdateAsync(id, request));
 
     // [HttpPut("updatestock")]

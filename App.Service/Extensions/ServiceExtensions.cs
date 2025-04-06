@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using App.Service.Categories;
 using App.Service.ExceptionHandlers;
 using App.Service.Products;
 using FluentValidation;
@@ -13,6 +14,7 @@ public static class ServiceExtensions
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ICategoryService, CategoryService>();
 
         // services.AddFluentValidationAutoValidation(); // FluentValidation ile otomatik model doğrulaması kapatılmıştır. Bu özelliği etkinleştirmek için bu satırın yorumunu kaldırın.
         

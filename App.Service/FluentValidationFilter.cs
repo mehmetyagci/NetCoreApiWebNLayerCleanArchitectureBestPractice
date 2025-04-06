@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace App.Service;
 
@@ -26,8 +27,16 @@ public class FluentValidationFilter : IAsyncActionFilter
 
             var validationContext = new ValidationContext<object>(argument.Value);
 
-            // ID'yi route'tan alıp ValidationContext'e ekle
-            if (context.RouteData.Values.TryGetValue("id", out var idValue) && idValue is string idStr && int.TryParse(idStr, out var id))
+            // Sadece işaretli action'larda id'yi ekle
+            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var hasUseIdAttr = actionDescriptor?.MethodInfo
+                .GetCustomAttributes(typeof(UseIdInValidationAttribute), false)
+                .Any() ?? false;
+            
+            if (hasUseIdAttr &&
+                context.RouteData.Values.TryGetValue("id", out var idValue) &&
+                idValue is string idStr &&
+                int.TryParse(idStr, out var id))
             {
                 validationContext.RootContextData["Id"] = id;
             }

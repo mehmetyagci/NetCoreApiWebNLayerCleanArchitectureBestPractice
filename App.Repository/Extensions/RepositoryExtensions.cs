@@ -1,4 +1,5 @@
-﻿using App.Repository.Products;
+﻿using App.Repository.Categories;
+using App.Repository.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,12 +21,10 @@ public static class RepositoryExtensions
                 sqlServerOptionsAction.MigrationsAssembly(typeof(RepositoryAssembly).Assembly.FullName); // sqlServerOptionsAction.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
             });
         });
-
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
-
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
         return services;
     }
 }
