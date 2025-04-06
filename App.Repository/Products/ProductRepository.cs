@@ -8,4 +8,9 @@ internal class ProductRepository(AppDbContext context) : GenericRepository<Produ
     {
         return Context.Products.OrderByDescending(p => p.Price).Take(count).ToListAsync();
     }
+
+    public Task<bool> CategoryExistsAsync(int categoryId, CancellationToken cancellationToken)
+    {
+        return Context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);
+    }
 }

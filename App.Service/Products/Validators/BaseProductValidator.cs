@@ -20,5 +20,6 @@ public abstract class BaseProductValidator<T> : AbstractValidator<T> where T : I
         RuleFor(x => x.Name).ProductNameRules();
         RuleFor(x => x.Price).ProductPriceRules();
         RuleFor(x => x.Stock).ProductStockRules();
+        RuleFor(x => x.CategoryId).ProductCategoryRules(_productRepository);
     }
 }
