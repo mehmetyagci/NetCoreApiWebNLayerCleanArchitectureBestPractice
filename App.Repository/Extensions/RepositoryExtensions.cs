@@ -1,4 +1,5 @@
 ﻿using App.Repository.Categories;
+using App.Repository.Interceptors;
 using App.Repository.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,8 @@ public static class RepositoryExtensions
                 // RepositoryAssembly adında bir struct yazdık ve Assembly bilgisini alırken bunu kullandık
                 sqlServerOptionsAction.MigrationsAssembly(typeof(RepositoryAssembly).Assembly.FullName); // sqlServerOptionsAction.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
             });
+
+            options.AddInterceptors(new AuditDbContextInterceptors());
         });
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();

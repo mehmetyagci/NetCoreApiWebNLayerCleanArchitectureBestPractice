@@ -2,7 +2,7 @@
 
 namespace App.Repository.Categories;
 
-public class Category
+public class Category : IAuditEntity
 {
     public int Id { get; set; }
     
@@ -12,4 +12,7 @@ public class Category
     /// Null geçilebilir işaretledik, çünkü ilk defa kategori tanımını yapıyoruz bu durumda ürün olmayabilir.
     /// </summary>
     public List<Product>? Products { get; set; }
+
+    public DateTime Created { get; set; }
+    public DateTime? Updated { get; set; }
 }
