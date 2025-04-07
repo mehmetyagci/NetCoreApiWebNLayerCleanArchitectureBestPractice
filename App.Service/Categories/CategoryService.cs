@@ -68,11 +68,8 @@ public class CategoryService(
 
     public async Task<ServiceResult> UpdateAsync(int id, UpdateCategoryRequest request)
     {
-        var category = await categoryRepository.GetByIdAsync(id);
-        if(category is null)
-            return ServiceResult.Fail("Category doesn't exist", HttpStatusCode.NotFound);
-        
-        category = mapper.Map(request, category);
+        var category = mapper.Map<Category>(request);
+        category.Id = id;
         
         categoryRepository.Update(category);
         await unitOfWork.SaveChangesAsync();
@@ -83,15 +80,8 @@ public class CategoryService(
     public async Task<ServiceResult> DeleteAsync(int id)
     {
         var category = await categoryRepository.GetByIdAsync(id);
-
-        if (category is null)
-        {
-            return ServiceResult.Fail("kategori bulunamadı", HttpStatusCode.NotFound);
-        }
-        
-        categoryRepository.Delete(category);
+        categoryRepository.Delete(category!); // NotFoundFilter ile category dolu olması lazım.
         await unitOfWork.SaveChangesAsync();
-        
         return ServiceResult.Success(HttpStatusCode.NoContent);
     }
 }

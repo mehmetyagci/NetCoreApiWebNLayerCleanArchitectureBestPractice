@@ -31,6 +31,7 @@ public class ProductsController(IProductService productService) : CustomBaseCont
     // [HttpPut("updatestock")]
     // public async Task<IActionResult> UpdateStockPut(UpdateProductStockRequest request) => CreateActionResult(await productService.UpdateStockAsync(request));
 
+    [ServiceFilter(typeof(NotFoundFilter<Product, int>))]
     [HttpPatch("stock")]
     public async Task<IActionResult> UpdateStockPatch(UpdateProductStockRequest request) => CreateActionResult(await productService.UpdateStockAsync(request));
     

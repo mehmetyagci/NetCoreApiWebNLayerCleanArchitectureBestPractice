@@ -73,13 +73,8 @@ public class ProductService(
 
     public async Task<ServiceResult> UpdateAsync(int id, UpdateProductRequest request)
     {
-        var product = await productRepository.GetByIdAsync(id);
-        if (product is null)
-            return ServiceResult.Fail("Product not found!", System.Net.HttpStatusCode.NotFound);
-
-       
-        
-        product = mapper.Map(request, product);
+        var product = mapper.Map<Product>(request);
+        product.Id = id;    
 
         productRepository.Update(product);
         await unitOfWork.SaveChangesAsync();
@@ -107,9 +102,7 @@ public class ProductService(
     public async Task<ServiceResult> DeleteAsync(int id)
     {
         var product = await productRepository.GetByIdAsync(id);
-        if (product is null)
-            return ServiceResult.Fail("Product not found!", System.Net.HttpStatusCode.NotFound);
-        productRepository.Delete(product);
+        productRepository.Delete(product!); // NotFoundFilter 'dan geçiyor burası o yüzden Product mutlaka dolu.
         await unitOfWork.SaveChangesAsync();
         return ServiceResult.Success(HttpStatusCode.NoContent);
     }

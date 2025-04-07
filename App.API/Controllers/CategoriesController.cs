@@ -1,7 +1,9 @@
-﻿using App.Service;
+﻿using App.Repository.Categories;
+using App.Service;
 using App.Service.Categories;
 using App.Service.Categories.Create;
 using App.Service.Categories.Update;
+using App.Service.Filters;
 using App.Service.Products;
 using App.Service.Products.Create;
 using AutoMapper;
@@ -29,11 +31,13 @@ public class CategoriesController(ICategoryService categoryService) : CustomBase
     public async Task<IActionResult> CreateCategory(CreateCategoryRequest request) =>
         CreateActionResult(await categoryService.CreateAsync(request));
 
+    [ServiceFilter(typeof(NotFoundFilter<Category, int>))]
     [HttpPut("{id:int}")]
     [UseIdInValidation]
     public async Task<IActionResult> UpdateCategory(int id, UpdateCategoryRequest request) =>
         CreateActionResult(await categoryService.UpdateAsync(id, request));
 
+    [ServiceFilter(typeof(NotFoundFilter<Category, int>))]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteCategory(int id) =>
         CreateActionResult(await categoryService.DeleteAsync(id));

@@ -11,41 +11,26 @@ public class NotFoundFilter<T, TId>(IGenericRepository<T, TId> genericRepository
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var idValue = context.ActionArguments.Values.FirstOrDefault();
-        if (idValue is null) // ilk parametre boş ise ActionFilter çalışmaya devam etsin.  
-        {
-            await next();
-            return;
-        }
+        var idValue = context.ActionArguments.TryGetValue("id", out var idAsObject) ? idAsObject : null;
         
-        var idKey = context.ActionArguments.Keys.FirstOrDefault(); // "id" key değeri
-        if (idKey != "id")   
-        {
-            await next();
-            return;
-        }
-
-        if ((idValue is not TId id))
+        if (idAsObject is not TId id)   
         {
             await next();
             return;
         }
         
         var anyEntity = await genericRepository.AnyAsync(id);
-        if (!anyEntity)
+        
+        if (anyEntity)
         {
-            var entityName = typeof(T).Name;
-            var actionName = context.ActionDescriptor.RouteValues["action"];
-
-            var result = ServiceResult.Fail($"data bulunamamıştır.({entityName}, {actionName}), {id.ToString()}");
-            context.Result = new NotFoundObjectResult(result);
+            await next();
             return;
         }
         
-        
-        // Action metod çalışmadan önce
-        await next();
-        // Action metod çalıştıkran sonra
+        var entityName = typeof(T).Name;
+        var actionName = context.ActionDescriptor.RouteValues["action"];
 
+        var result = ServiceResult.Fail($"data bulunamamıştır.({entityName}, {actionName}), {id.ToString()}");
+        context.Result = new NotFoundObjectResult(result);
     }
 }
