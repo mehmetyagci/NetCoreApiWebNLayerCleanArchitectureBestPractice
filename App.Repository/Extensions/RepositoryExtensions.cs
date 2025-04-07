@@ -13,20 +13,21 @@ public static class RepositoryExtensions
     {
         services.AddDbContext<AppDbContext>(options =>
         {
-            var connectionStrings = configuration.GetSection(ConnectionStringOption.Key).Get <ConnectionStringOption>();
+            var connectionStrings = configuration.GetSection(ConnectionStringOption.Key).Get<ConnectionStringOption>();
 
             options.UseSqlServer(connectionStrings!.SqlServer, sqlServerOptionsAction =>
             {
                 // AppDbContext 'in yeri değişebilir. Migration 'ların Repository 'de kalması için
                 // RepositoryAssembly adında bir struct yazdık ve Assembly bilgisini alırken bunu kullandık
-                sqlServerOptionsAction.MigrationsAssembly(typeof(RepositoryAssembly).Assembly.FullName); // sqlServerOptionsAction.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
+                sqlServerOptionsAction.MigrationsAssembly(typeof(RepositoryAssembly).Assembly
+                    .FullName); // sqlServerOptionsAction.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
             });
 
             options.AddInterceptors(new AuditDbContextInterceptors());
         });
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }

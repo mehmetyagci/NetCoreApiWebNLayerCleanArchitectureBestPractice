@@ -2,11 +2,9 @@
 
 namespace App.Repository.Categories;
 
-public class Category : IAuditEntity
+public class Category : BaseEntity<int>, IAuditEntity
 {
-    public int Id { get; set; }
-    
-    public string Name { get; set; }  
+    public string Name { get; set; }   = default!;
 
     /// <summary>
     /// Null geçilebilir işaretledik, çünkü ilk defa kategori tanımını yapıyoruz bu durumda ürün olmayabilir.
