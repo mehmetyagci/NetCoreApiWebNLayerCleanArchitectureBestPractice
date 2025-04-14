@@ -1,11 +1,11 @@
-﻿using App.Repository.Products;
-using App.Service;
-using App.Service.Filters;
-using App.Service.Products;
+﻿using App.API.Attributes;
+using App.API.Filters;
+using App.Application.Features.Products;
+using App.Application.Features.Products.Create;
+using App.Application.Features.Products.Update;
+using App.Application.Features.Products.UpdateStock;
+using App.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using App.Service.Products.Create;
-using App.Service.Products.Update;
-using App.Service.Products.UpdateStock;
 
 namespace App.API.Controllers;
 

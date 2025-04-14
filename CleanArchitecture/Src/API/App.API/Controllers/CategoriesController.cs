@@ -1,11 +1,9 @@
-﻿using App.Repository.Categories;
-using App.Service;
-using App.Service.Categories;
-using App.Service.Categories.Create;
-using App.Service.Categories.Update;
-using App.Service.Filters;
-using App.Service.Products;
-using App.Service.Products.Create;
+﻿using App.API.Attributes;
+using App.API.Filters;
+using App.Application.Features.Categories;
+using App.Application.Features.Categories.Create;
+using App.Application.Features.Categories.Update;
+using App.Domain.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
