@@ -13,7 +13,7 @@ public static class RepositoryExtensions
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<Repository.AppDbContext>(options =>
+        services.AddDbContext<AppDbContext>(options =>
         {
             var connectionStrings = configuration.GetSection(ConnectionStringOption.Key).Get<ConnectionStringOption>();
 
@@ -29,7 +29,7 @@ public static class RepositoryExtensions
         });
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped(typeof(IGenericRepository<,>), typeof(Repository.GenericRepository<,>));
+        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }

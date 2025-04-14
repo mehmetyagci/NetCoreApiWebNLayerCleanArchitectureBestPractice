@@ -6,11 +6,11 @@ namespace App.Application.Features.Categories;
 
 public interface ICategoryService
 {
-    Task<Service.ServiceResult<CategoryWithProductsDto>> GetCategoryWithProductsAsync(int categoryId);
-    Task<Service.ServiceResult<List<CategoryWithProductsDto>>> GetCategoryWithProductsAsync();
-    Task<Service.ServiceResult<List<CategoryDto>>> GetAllListAsync();
-    Task<Service.ServiceResult<CategoryDto>> GetByIdAsync(int id);
-    Task<Service.ServiceResult<CreateCategoryResponse>> CreateAsync(CreateCategoryRequest request);
-    Task<Service.ServiceResult> UpdateAsync(int id, UpdateCategoryRequest request);
-    Task<Service.ServiceResult> DeleteAsync(int id);
+    Task<ServiceResult<CategoryWithProductsDto>> GetCategoryWithProductsAsync(int categoryId);
+    Task<ServiceResult<List<CategoryWithProductsDto>>> GetCategoryWithProductsAsync();
+    Task<ServiceResult<List<CategoryDto>>> GetAllListAsync();
+    Task<ServiceResult<CategoryDto>> GetByIdAsync(int id);
+    Task<ServiceResult<CreateCategoryResponse>> CreateAsync(CreateCategoryRequest request);
+    Task<ServiceResult> UpdateAsync(int id, UpdateCategoryRequest request);
+    Task<ServiceResult> DeleteAsync(int id);
 }
