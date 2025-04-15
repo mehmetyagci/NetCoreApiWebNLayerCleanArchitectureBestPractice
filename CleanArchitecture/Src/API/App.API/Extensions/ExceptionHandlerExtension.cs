@@ -8,5 +8,7 @@ public static class ExceptionHandlerExtension
     {
         services.AddExceptionHandler<CriticalExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
+        
+        return services;
     }
 }
